@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h3>Hello firebase</h3>
+    <h3>Hello firebase, del public</h3>
     <h2>Essential Links</h2>
     <ul>
       <li>
