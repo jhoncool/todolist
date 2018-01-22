@@ -53,6 +53,27 @@
         <main role="main" class="col-lg-9">
           <router-view/>
         </main>
+
+        <form @submit.prevent="addTest">
+          <div class="form-group">
+            <label>
+            <input type="text" class="form-control" v-model="newTest.first">
+            first</label>
+          </div>
+          <div class="form-group">
+            <label>
+            <input type="text" class="form-control" v-model="newTest.second">
+            second</label>
+          </div>
+          <input type="submit" class="btn btn-primary" value="Add Test">
+        </form>
+        <ul>
+          <li v-for="t in test" :key="t['.key']">
+            <b>first:</b> {{ t.first }} <br>
+            <b>second:</b> {{ t.second }}
+          </li>
+        </ul>
+
       </div>
     </div>
   </div>
@@ -60,11 +81,34 @@
 
 <script>
 import FontAwesomeIcon from "@fortawesome/vue-fontawesome";
+import db from "@/firebase/db.js";
+
+const testRef = db.ref("test");
 
 export default {
   name: "App",
   components: {
     FontAwesomeIcon
+  },
+  data() {
+    return {
+      newTest: {
+        first: "",
+        second: ""
+      }
+    };
+  },
+  firebase: {
+    test: testRef
+  },
+  methods: {
+    addTest: function() {
+      if (this.newTest.first && this.newTest.second) {
+        testRef.push(this.newTest);
+        this.newTest.first = "";
+        this.newTest.second = "";
+      }
+    }
   }
 };
 </script>
@@ -87,7 +131,7 @@ export default {
 }
 .main-menu__nav-item {
   position: relative;
-  border: 1px solid rgba(0,0,0,.125);
+  border: 1px solid rgba(0, 0, 0, 0.125);
   margin-bottom: -1px;
 }
 .main-menu__nav-item.active {
@@ -106,16 +150,16 @@ export default {
   background-color: #4f90c2;
 }
 .main-menu__nav-item:first-child {
-  border-top-left-radius: .25rem;
-  border-top-right-radius: .25rem;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
 }
 .main-menu__nav-item:last-child {
-  border-bottom-right-radius: .25rem;
-  border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
   margin-bottom: 0;
 }
 .main-menu__link-header {
-  border-bottom: 1px dotted rgba(0,0,0,.125);
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.125);
 }
 .submenu {
   margin-left: 24px;
@@ -131,7 +175,7 @@ export default {
   bottom: 0;
   border: 1px dotted;
   border-width: 0 0 0 1px;
-  border-color: rgba(0,0,0,.125);
+  border-color: rgba(0, 0, 0, 0.125);
 }
 .submenu__nav-item {
   position: relative;
@@ -146,7 +190,7 @@ export default {
   top: 20px;
   border: 1px dotted;
   border-width: 1px 0 0;
-  border-color: rgba(0,0,0,.125);
+  border-color: rgba(0, 0, 0, 0.125);
 }
 .submenu__icon--caret {
   position: absolute;
